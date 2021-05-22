@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/item_asset_image"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        tools:src="@drawable/ic_launcher_background" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/item_asset_text_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/item_asset_image"
+        android:layout_marginStart="16dp"
+        android:layout_toEndOf="@+id/item_asset_image"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        tools:text="@tools:sample/first_names" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/item_asset_text_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:layout_marginStart="16dp"
+        android:layout_alignBottom="@id/item_asset_image"
+        android:layout_alignStart="@id/item_asset_text_name"
+        android:textStyle="bold"
+        tools:text="R$ valor" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/item_asset_text_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@id/item_asset_image"
+        android:layout_marginEnd="16dp"
+        tools:text="22/05/2021" />
+
+    <!-- Inserir um campo para o tipo de gasto/perda ex.: Aluguel-->
+
+</RelativeLayout>
