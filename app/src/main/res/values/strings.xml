@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">kotlinRecycler</string>
+    <string name="fab_create_asset">Create Asset</string>
 </resources>
