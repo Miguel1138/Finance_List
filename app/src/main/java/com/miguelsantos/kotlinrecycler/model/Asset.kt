@@ -1,5 +1,7 @@
 package com.miguelsantos.kotlinrecycler.model
 
+import com.mooveit.library.Fakeit
+
 // Campos do item asset do xml
 // icon é boolean pois sua imagem vai depender sé é um ganho ou perda.
 // Modelo de dado
@@ -7,8 +9,7 @@ data class Asset(
     var icon: Boolean,
     var name: String,
     var value: String,
-    var date: String,
-    var selected: Boolean = false
+    var date: String
 )
 
 // Construtor da classe
@@ -26,84 +27,39 @@ fun asset(block: AssetBuilder.() -> Unit): Asset = AssetBuilder().apply(block).b
 
 fun fakeAssets() = mutableListOf(
     asset {
-        icon = false
-        name = "Mercado Nunes"
-        value = "R$ 24,85"
-        date = "22/03/2021"
-    },
-
-    asset {
-        icon = true
-        name = "Joalheria"
-        value = "R$ 250,75"
-        date = "22/03/2021"
-    },
-
-    asset {
-        icon = false
-        name = "Mercado Nunes"
-        value = "R$ 24,85"
-        date = "22/03/2021"
-    },
-
-    asset {
-        icon = true
-        name = "Mercado Nunes"
-        value = "R$ 24,85"
-        date = "22/03/2021"
-    },
-
-    asset {
-        icon = false
-        name = "Joalheria"
-        value = "R$ 250,75"
-        date = "22/03/2021"
-    },
-
-    asset {
-        icon = false
-        name = "Mercado Nunes"
-        value = "R$ 24,85"
-        date = "22/03/2021"
+        icon = (0..1).random() == 0
+        name = Fakeit.name().name()
+        value = "R$ ${(1..100).random()}"
+        date = "${(1..31).random()}/${(1..12).random()}/2021"
     },
     asset {
-        icon = false
-        name = "Mercado Nunes"
-        value = "R$ 24,85"
-        date = "22/03/2021"
+        icon = (0..1).random() == 0
+        name = Fakeit.name().name()
+        value = "R$ ${(1..100).random()}"
+        date = "${(1..31).random()}/${(1..12).random()}/2021"
     },
-
     asset {
-        icon = true
-        name = "Joalheria"
-        value = "R$ 250,75"
-        date = "22/03/2021"
+        icon = (0..1).random() == 0
+        name = Fakeit.name().name()
+        value = "R$ ${(1..100).random()}"
+        date = "${(1..31).random()}/${(1..12).random()}/2021"
     },
-
     asset {
-        icon = false
-        name = "Mercado Nunes"
-        value = "R$ 24,85"
-        date = "22/03/2021"
+        icon = (0..1).random() == 0
+        name = Fakeit.name().name()
+        value = "R$ ${(1..100).random()}"
+        date = "${(1..31).random()}/${(1..12).random()}/2021"
     },
-
     asset {
-        icon = true
-        name = "Mercado Nunes"
-        value = "R$ 24,85"
-        date = "22/03/2021"
+        icon = (0..1).random() == 0
+        name = Fakeit.name().name()
+        value = "R$ ${(1..100).random()}"
+        date = "${(1..31).random()}/${(1..12).random()}/2021"
     },
-
     asset {
-        icon = false
-        name = "Joalheria"
-        value = "R$ 250,75"
-        date = "22/03/2021"
-    },
-
-    asset {
-        icon = false
-        name = "Mercado Nunes"
-        value = "R$ 24,85"
-        date = "22/03/2021"
-    })
+        icon = (0..1).random() == 0
+        name = Fakeit.name().name()
+        value = "R$ ${(1..100).random()}"
+        date = "${(1..31).random()}/${(1..12).random()}/2021"
+    }
+)
