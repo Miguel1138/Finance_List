@@ -1,4 +1,4 @@
-package com.miguelsantos.kotlinrecycler.model
+package com.miguelsantos.kotlinrecycler.main.model
 
 import com.mooveit.library.Fakeit
 
@@ -30,6 +30,7 @@ fun fakeAssets() = mutableListOf(
         icon = (0..1).random() == 0
         name = Fakeit.name().name()
         value = "R$ ${(1..100).random()}"
+        // data aleatoria exemplo 24/3/2021
         date = "${(1..31).random()}/${(1..12).random()}/2021"
     },
     asset {

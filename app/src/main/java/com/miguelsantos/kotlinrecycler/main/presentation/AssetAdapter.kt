@@ -1,16 +1,16 @@
-package com.miguelsantos.kotlinrecycler
+package com.miguelsantos.kotlinrecycler.main.presentation
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.miguelsantos.kotlinrecycler.model.Asset
+import com.miguelsantos.kotlinrecycler.R
+import com.miguelsantos.kotlinrecycler.main.model.Asset
 import kotlinx.android.synthetic.main.main_item_asset.view.*
 
 
 class AssetAdapter(val assets: MutableList<Asset>) :
     RecyclerView.Adapter<AssetAdapter.AssetViewHolder>() {
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AssetViewHolder {
         val view =

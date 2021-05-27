@@ -4,25 +4,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".main.presentation.MainActivity">
 
     <!-- Recebe as funcionalidades da toolbar -->
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/main_app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark">
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-        <androidx.appcompat.widget.Toolbar
+        <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/main_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/colorPrimary"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Dark"
-            app:title="@string/app_name" />
+            app:subtitle="Maio 2021"
+            app:title="Total R$ 1,000" />
     </com.google.android.material.appbar.AppBarLayout>
 
     <include
+        android:id="@+id/content"
         layout="@layout/content_main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -41,5 +43,6 @@
         android:src="@drawable/ic_baseline_add_24"
         app:rippleColor="@color/secondaryLightColor" />
 
+    <!-- Adicionar total no layout -->
 
 </RelativeLayout>
