@@ -28,6 +28,8 @@ class ItemTouchHelper(
     }
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-        TODO("Not yet implemented")
+        // Remove o item na posição do adapter
+        adapter.assets.removeAt(viewHolder.adapterPosition)
+        adapter.notifyItemRemoved(viewHolder.adapterPosition)
     }
 }

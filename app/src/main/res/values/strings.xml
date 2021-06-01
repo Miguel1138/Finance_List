@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">kotlinRecycler</string>
     <string name="fab_create_asset">Criar novo item na lista</string>
+    <string name="delete_items">Deletar itens</string>
 </resources>
