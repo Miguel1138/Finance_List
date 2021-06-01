@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     tools:showIn="@layout/activity_main">
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/item_card_bg">
@@ -14,35 +15,34 @@
             android:id="@+id/item_asset_image"
             android:layout_width="55dp"
             android:layout_height="55dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             tools:src="@drawable/ic_baseline_arrow_upward_24" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/item_asset_text_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/item_asset_image"
             android:layout_marginStart="16dp"
-            android:layout_toStartOf="@id/item_asset_text_date"
-            android:layout_toEndOf="@+id/item_asset_image"
             android:ellipsize="end"
             android:ems="12"
             android:maxLines="1"
             android:padding="4dp"
             android:textSize="14sp"
             android:textStyle="bold|italic"
+            app:layout_constraintEnd_toStartOf="@id/item_asset_text_date"
+            app:layout_constraintStart_toEndOf="@+id/item_asset_image"
+            app:layout_constraintTop_toTopOf="@+id/item_asset_image"
             tools:text="Mercado Nunes" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/item_asset_text_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/item_asset_text_name"
-            android:layout_alignStart="@id/item_asset_text_name"
             android:layout_marginStart="16dp"
             android:ems="7"
             android:maxLines="1"
@@ -51,6 +51,8 @@
             android:paddingBottom="5dp"
             android:textSize="24sp"
             android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@id/item_asset_text_name"
+            app:layout_constraintTop_toBottomOf="@id/item_asset_text_name"
             tools:text="R$ 24,90" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -58,14 +60,14 @@
             android:id="@+id/item_asset_text_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@id/item_asset_text_name"
-            android:layout_alignParentEnd="true"
             android:layout_marginEnd="16dp"
             android:maxLength="10"
             android:padding="5dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/item_asset_text_name"
             tools:text="22/05/2021" />
 
         <!-- Inserir um campo para o tipo de gasto/perda ex.: Aluguel-->
 
-    </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>
