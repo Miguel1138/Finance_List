@@ -18,22 +18,18 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:src="@drawable/ic_baseline_arrow_upward_24" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/item_asset_text_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/ItemTextForm"
             android:layout_marginStart="16dp"
             android:ellipsize="end"
-            android:ems="12"
-            android:maxLines="1"
             android:padding="4dp"
             android:textSize="14sp"
-            android:textStyle="bold|italic"
             app:layout_constraintEnd_toStartOf="@id/item_asset_text_date"
             app:layout_constraintStart_toEndOf="@+id/item_asset_image"
             app:layout_constraintTop_toTopOf="@+id/item_asset_image"
@@ -41,33 +37,32 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/item_asset_text_value"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/ItemTextForm"
             android:layout_marginStart="16dp"
-            android:ems="7"
-            android:maxLines="1"
+            android:layout_marginEnd="8dp"
             android:paddingStart="5dp"
             android:paddingEnd="5dp"
             android:paddingBottom="5dp"
+            android:text="@string/item_value"
             android:textSize="24sp"
             android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@id/item_asset_text_date"
             app:layout_constraintStart_toStartOf="@id/item_asset_text_name"
             app:layout_constraintTop_toBottomOf="@id/item_asset_text_name"
             tools:text="R$ 24,90" />
 
         <androidx.appcompat.widget.AppCompatTextView
-
             android:id="@+id/item_asset_text_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
             android:layout_marginEnd="16dp"
             android:maxLength="10"
             android:padding="5dp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/item_asset_text_name"
             app:layout_constraintTop_toTopOf="@id/item_asset_text_name"
             tools:text="22/05/2021" />
-
         <!-- Inserir um campo para o tipo de gasto/perda ex.: Aluguel-->
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

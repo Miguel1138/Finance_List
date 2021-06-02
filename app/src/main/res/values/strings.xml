@@ -2,4 +2,7 @@
     <string name="app_name">kotlinRecycler</string>
     <string name="fab_create_asset">Criar novo item na lista</string>
     <string name="delete_items">Deletar itens</string>
+    <string name="final_balance">Saldo Final %1$s</string>
+    <string name="selected_items">Item Selecionado %o </string>
+    <string name="item_value">R$ %1$s</string>
 </resources>

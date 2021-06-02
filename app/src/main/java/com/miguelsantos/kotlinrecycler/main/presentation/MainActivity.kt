@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ActionMode
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.miguelsantos.kotlinrecycler.R
 import com.miguelsantos.kotlinrecycler.main.model.asset
@@ -18,41 +19,40 @@ class MainActivity : AppCompatActivity() {
     private lateinit var mainRecycler: RecyclerView
     private lateinit var fabCreateAsset: FloatingActionButton
     private lateinit var assetAdapter: AssetAdapter
-
+    private lateinit var toolbar: MaterialToolbar
     private var actionMode: ActionMode? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
         Fakeit.init()
-
-        assetAdapter = AssetAdapter(fakeAssets())
-
-        mainRecycler = findViewById(R.id.main_recycler)
-        mainRecycler.adapter = assetAdapter
-        mainRecycler.layoutManager = LinearLayoutManager(this)
+        setRecyclerView()
 
         fabCreateAsset = findViewById(R.id.main_fab_create_asset)
-        fabCreateAsset.setOnClickListener {
-            addAsset()
-            // Scroll para o fim do array
-            mainRecycler.scrollToPosition(assetAdapter.assets.size - 1)
+        fabCreateAsset.setOnClickListener { addAsset() }
+
+        toolbar = findViewById(R.id.main_toolbar)
+        toolbar.title =
+            String.format(resources.getString(R.string.final_balance), showFinalBalance())
+        setSupportActionBar(toolbar)
+    }
+
+
+    private fun setRecyclerView() {
+        mainRecycler = findViewById(R.id.main_recycler)
+        assetAdapter = AssetAdapter(fakeAssets(), this)
+
+        with(mainRecycler) {
+            layoutManager = LinearLayoutManager(this@MainActivity)
+            adapter = assetAdapter
         }
 
         val helper = androidx.recyclerview.widget.ItemTouchHelper(
             ItemTouchHelper(0, androidx.recyclerview.widget.ItemTouchHelper.LEFT, assetAdapter)
         )
-
         helper.attachToRecyclerView(mainRecycler)
-        assetAdapter.onItemClick = {
-            enableActionMode(it)
-        }
-
-        assetAdapter.onItemLongClick = {
-            enableActionMode(it)
-
-        }
+        assetAdapter.onItemClick = { enableActionMode(it) }
+        assetAdapter.onItemLongClick = { enableActionMode(it) }
 
     }
 
@@ -81,15 +81,14 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 override fun onDestroyActionMode(mode: ActionMode?) {
-                    assetAdapter.selectedItems.clear()
-                    assetAdapter.assets
-                        .filter { it.isSelected }
-                        .forEach { it.isSelected = false }
-
-                    assetAdapter.notifyDataSetChanged()
+                    with(assetAdapter) {
+                        selectedItems.clear()
+                        assets.filter { it.isSelected }
+                            .forEach { it.isSelected = false }
+                        notifyDataSetChanged()
+                    }
                     actionMode = null
                 }
-
             })
         }
 
@@ -98,22 +97,39 @@ class MainActivity : AppCompatActivity() {
         if (size == 0) {
             actionMode?.finish()
         } else {
-            actionMode?.title = "Itens selecionados $size"
+            actionMode?.title = String.format(resources.getString(R.string.selected_items, size))
             actionMode?.invalidate()
         }
 
     }
 
     private fun addAsset() {
-        assetAdapter.assets.add(
-            asset {
-                isProfit = (0..1).random() == 0
-                name = Fakeit.name().title()
-                value = "R$ ${(1..100).random()}"
-                date = "${(1..31).random()}/${(1..12).random()}/2021"
-            }
-        )
-        assetAdapter.notifyDataSetChanged()
+        with(assetAdapter) {
+            assets.add(
+                asset {
+                    isProfit = (0..1).random() == 0
+                    name = Fakeit.name().title()
+                    value = "${(1..100).random()}".toBigDecimal()
+                    date = "${(1..31).random()}/${(1..12).random()}/2021"
+                }
+            )
+            notifyDataSetChanged()
+            // Scroll to the end of the array
+            mainRecycler.scrollToPosition(assetAdapter.assets.size - 1)
+        }
+
+        toolbar.title = String.format(
+            resources.getString(R.string.final_balance), showFinalBalance())
+    }
+
+    // Toolbar title
+    fun showFinalBalance(): String {
+        var balance = "0.0".toBigDecimal()
+        for (asset in assetAdapter.assets) {
+            balance += asset.value
+        }
+
+        return balance.toString()
     }
 
 }

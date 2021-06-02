@@ -22,7 +22,8 @@
             android:background="?attr/colorPrimary"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Dark"
             app:subtitle="Maio 2021"
-            app:title="Total R$ 1,000" />
+            app:title="@string/final_balance" />
+        <!-- Add string that receives enum value-->
     </com.google.android.material.appbar.AppBarLayout>
 
     <include

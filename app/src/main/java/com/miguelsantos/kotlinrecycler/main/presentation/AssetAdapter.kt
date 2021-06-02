@@ -1,5 +1,6 @@
 package com.miguelsantos.kotlinrecycler.main.presentation
 
+import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.util.SparseBooleanArray
@@ -14,12 +15,17 @@ import androidx.recyclerview.widget.RecyclerView
 import com.miguelsantos.kotlinrecycler.R
 import com.miguelsantos.kotlinrecycler.main.model.Asset
 
+class AssetAdapter(
+    val assets: MutableList<Asset>,
+    val context: Context
+) : RecyclerView.Adapter<AssetAdapter.AssetViewHolder>() {
 
-class AssetAdapter(val assets: MutableList<Asset>) :
-    RecyclerView.Adapter<AssetAdapter.AssetViewHolder>() {
-
-    val selectedItems = SparseBooleanArray()
     private var currentItemPosition: Int = -1
+    val selectedItems = SparseBooleanArray()
+
+    // Referências dos listeners dos items da lista.
+    var onItemClick: ((Int) -> Unit)? = null
+    var onItemLongClick: ((Int) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AssetViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -30,46 +36,45 @@ class AssetAdapter(val assets: MutableList<Asset>) :
     override fun getItemCount(): Int = assets.size
 
     override fun onBindViewHolder(holder: AssetViewHolder, position: Int) {
-        holder.bind(assets[position])
+        with(holder) {
+            bind(assets[position])
 
-        // Adicionando Clicklistener nos itens da lista
-        holder.itemView.setOnClickListener {
-            if (selectedItems.isNotEmpty()) onItemClick?.invoke(position)
+            // Adicionando Clicklistener nos itens da lista
+            itemView.setOnClickListener {
+                if (selectedItems.isNotEmpty()) onItemClick?.invoke(position)
+            }
+
+            // Adicionando LongClickListener nos itens da lista
+            itemView.setOnLongClickListener {
+                onItemLongClick?.invoke(position)
+                return@setOnLongClickListener true
+            }
         }
-
-        // Adicionando LongClickListener nos itens da lista
-        holder.itemView.setOnLongClickListener {
-            onItemLongClick?.invoke(position)
-            return@setOnLongClickListener true
-        }
-
         if (currentItemPosition == position) currentItemPosition = -1
     }
 
     fun toggleSelection(position: Int) {
         currentItemPosition = position
-        if (selectedItems[position, false]) {
-            selectedItems.delete(position)
-            assets[position].isSelected = false
-        } else {
-            selectedItems.put(position, true)
-            assets[position].isSelected = true
+        with(selectedItems) {
+            if (selectedItems[position, false]) {
+                delete(position)
+                assets[position].isSelected = false
+            } else {
+                put(position, true)
+                assets[position].isSelected = true
+            }
         }
-
         notifyItemChanged(position)
     }
 
     fun deleteAssets() {
-        assets.removeAll(
-            assets.filter { it.isSelected }
-        )
+        with(assets) {
+            removeAll(filter { it.isSelected })
+        }
         notifyDataSetChanged()
         currentItemPosition = -1
-    }
 
-    // Referências dos listeners dos items da lista.
-    var onItemClick: ((Int) -> Unit)? = null
-    var onItemLongClick: ((Int) -> Unit)? = null
+    }
 
     inner class AssetViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
@@ -81,11 +86,12 @@ class AssetAdapter(val assets: MutableList<Asset>) :
                     else
                         R.drawable.ic_baseline_arrow_downward_24
                 )
+
                 itemView.findViewById<TextView>(R.id.item_asset_text_name).text = name
                 itemView.findViewById<TextView>(R.id.item_asset_text_date).text = date
-                itemView.findViewById<TextView>(R.id.item_asset_text_value).text = value
+                itemView.findViewById<TextView>(R.id.item_asset_text_value).text =
+                    String.format(context.resources.getString(R.string.item_value), value)
             }
-
             if (asset.isSelected) {
                 itemView.findViewById<ConstraintLayout>(R.id.main_item_asset).background =
                     GradientDrawable().apply {

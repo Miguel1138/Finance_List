@@ -21,15 +21,17 @@ class ItemTouchHelper(
     ): Boolean {
         val from = viewHolder.adapterPosition
         val to = target.adapterPosition
-        // Não reconhece a váriavel do construtor.
+
         Collections.swap(assets, from, to)
         adapter.notifyItemMoved(from, to)
         return true
     }
 
+    // Remove Item
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-        // Remove o item na posição do adapter
-        adapter.assets.removeAt(viewHolder.adapterPosition)
-        adapter.notifyItemRemoved(viewHolder.adapterPosition)
+        with(adapter) {
+            assets.removeAt(viewHolder.adapterPosition)
+            notifyItemRemoved(viewHolder.adapterPosition)
+        }
     }
 }
