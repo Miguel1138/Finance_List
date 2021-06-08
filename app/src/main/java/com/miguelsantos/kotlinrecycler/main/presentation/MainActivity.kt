@@ -32,11 +32,24 @@ class MainActivity : AppCompatActivity() {
         fabCreateAsset.setOnClickListener { addAsset() }
 
         toolbar = findViewById(R.id.main_toolbar)
+
+        val helper = androidx.recyclerview.widget.ItemTouchHelper(
+            ItemTouchHelper(
+                0,
+                androidx.recyclerview.widget.ItemTouchHelper.LEFT,
+                assetAdapter,
+                toolbar
+            )
+        )
+        helper.attachToRecyclerView(mainRecycler)
+    }
+
+    override fun onResume() {
+        super.onResume()
         toolbar.title =
             String.format(resources.getString(R.string.final_balance), showFinalBalance())
         setSupportActionBar(toolbar)
     }
-
 
     private fun setRecyclerView() {
         mainRecycler = findViewById(R.id.main_recycler)
@@ -45,17 +58,15 @@ class MainActivity : AppCompatActivity() {
         with(mainRecycler) {
             layoutManager = LinearLayoutManager(this@MainActivity)
             adapter = assetAdapter
+
         }
 
-        val helper = androidx.recyclerview.widget.ItemTouchHelper(
-            ItemTouchHelper(0, androidx.recyclerview.widget.ItemTouchHelper.LEFT, assetAdapter)
-        )
-        helper.attachToRecyclerView(mainRecycler)
         assetAdapter.onItemClick = { enableActionMode(it) }
         assetAdapter.onItemLongClick = { enableActionMode(it) }
 
     }
 
+    // Action Mode e toolbar de delete
     private fun enableActionMode(position: Int) {
         if (actionMode == null) {
             actionMode = startSupportActionMode(object : ActionMode.Callback {
@@ -100,7 +111,6 @@ class MainActivity : AppCompatActivity() {
             actionMode?.title = String.format(resources.getString(R.string.selected_items, size))
             actionMode?.invalidate()
         }
-
     }
 
     private fun addAsset() {
@@ -119,14 +129,20 @@ class MainActivity : AppCompatActivity() {
         }
 
         toolbar.title = String.format(
-            resources.getString(R.string.final_balance), showFinalBalance())
+            resources.getString(R.string.final_balance), showFinalBalance()
+        )
     }
 
     // Toolbar title
     fun showFinalBalance(): String {
         var balance = "0.0".toBigDecimal()
         for (asset in assetAdapter.assets) {
-            balance += asset.value
+            with(asset) {
+                if (isProfit)
+                    balance += value
+                else
+                    balance -= value
+            }
         }
 
         return balance.toString()

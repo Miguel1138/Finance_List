@@ -92,6 +92,7 @@ class AssetAdapter(
                 itemView.findViewById<TextView>(R.id.item_asset_text_value).text =
                     String.format(context.resources.getString(R.string.item_value), value)
             }
+
             if (asset.isSelected) {
                 itemView.findViewById<ConstraintLayout>(R.id.main_item_asset).background =
                     GradientDrawable().apply {
