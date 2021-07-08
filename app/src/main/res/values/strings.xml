@@ -5,4 +5,7 @@
     <string name="final_balance">Saldo Final R$ %1$s</string>
     <string name="selected_items">Item Selecionado %o </string>
     <string name="item_value">R$ %1$s</string>
+    <string name="open_drawer">Abrir</string>
+    <string name="close_drawer">Fechar</string>
+    <string name="dummy_text">Dummy Text</string>
 </resources>

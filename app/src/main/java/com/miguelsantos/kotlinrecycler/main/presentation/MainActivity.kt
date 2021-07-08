@@ -3,35 +3,42 @@ package com.miguelsantos.kotlinrecycler.main.presentation
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ActionMode
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.navigation.NavigationView
 import com.miguelsantos.kotlinrecycler.R
 import com.miguelsantos.kotlinrecycler.main.model.asset
 import com.miguelsantos.kotlinrecycler.main.model.fakeAssets
 import com.mooveit.library.Fakeit
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     private lateinit var mainRecycler: RecyclerView
-    private lateinit var fabCreateAsset: FloatingActionButton
     private lateinit var assetAdapter: AssetAdapter
     private lateinit var toolbar: MaterialToolbar
+    private lateinit var drawerLayout: DrawerLayout
     private var actionMode: ActionMode? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.drawer_main)
         Fakeit.init()
+
         setRecyclerView()
 
-        fabCreateAsset = findViewById(R.id.main_fab_create_asset)
-        fabCreateAsset.setOnClickListener { addAsset() }
-
         toolbar = findViewById(R.id.main_toolbar)
+        initDrawer()
+
+        val fabCreateAsset = findViewById<FloatingActionButton>(R.id.main_fab_create_asset)
+        fabCreateAsset.setOnClickListener { addAsset() }
 
         val helper = androidx.recyclerview.widget.ItemTouchHelper(
             ItemTouchHelper(
@@ -44,26 +51,18 @@ class MainActivity : AppCompatActivity() {
         helper.attachToRecyclerView(mainRecycler)
     }
 
-    override fun onResume() {
-        super.onResume()
-        toolbar.title =
-            String.format(resources.getString(R.string.final_balance), showFinalBalance())
-        setSupportActionBar(toolbar)
-    }
-
     private fun setRecyclerView() {
         mainRecycler = findViewById(R.id.main_recycler)
+
         assetAdapter = AssetAdapter(fakeAssets(), this)
 
         with(mainRecycler) {
             layoutManager = LinearLayoutManager(this@MainActivity)
             adapter = assetAdapter
-
         }
 
         assetAdapter.onItemClick = { enableActionMode(it) }
         assetAdapter.onItemLongClick = { enableActionMode(it) }
-
     }
 
     // Action Mode e toolbar de delete
@@ -113,6 +112,38 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        toolbar.title =
+            String.format(resources.getString(R.string.final_balance), showFinalBalance())
+    }
+
+    private fun initDrawer() {
+        drawerLayout = findViewById(R.id.drawer_layout)
+        setSupportActionBar(toolbar)
+        val toggle = ActionBarDrawerToggle(
+            this,
+            drawerLayout,
+            toolbar,
+            R.string.open_drawer,
+            R.string.close_drawer
+        )
+
+        drawerLayout.addDrawerListener(toggle)
+        toggle.syncState()
+
+        val navView = findViewById<NavigationView>(R.id.main_nav_view)
+        navView.setNavigationItemSelectedListener(this)
+    }
+
+    override fun onBackPressed() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START))
+            drawerLayout.closeDrawer(GravityCompat.START)
+        else
+            super.onBackPressed()
+    }
+
+    // Implement at MVVM classes later
     private fun addAsset() {
         with(assetAdapter) {
             assets.add(
@@ -146,6 +177,15 @@ class MainActivity : AppCompatActivity() {
         }
 
         return balance.toString()
+    }
+
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.menu_check_last_month -> Toast.makeText(this, "Teste 123", Toast.LENGTH_SHORT)
+                .show()
+        }
+        drawerLayout.closeDrawer(GravityCompat.START)
+        return true
     }
 
 }

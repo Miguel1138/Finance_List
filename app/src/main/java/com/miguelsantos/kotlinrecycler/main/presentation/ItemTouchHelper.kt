@@ -9,13 +9,11 @@ import java.util.*
 class ItemTouchHelper(
     dragDirs: Int,
     swipeDirs: Int,
-    assetAdapter: AssetAdapter,
-    toolbar: MaterialToolbar
+    private val assetAdapter: AssetAdapter,
+    private val toolbar: MaterialToolbar
 ) : ItemTouchHelper.SimpleCallback(dragDirs, swipeDirs) {
 
     val assets: MutableList<Asset> = assetAdapter.assets
-    val adapter = assetAdapter
-    val toolbar = toolbar
 
     override fun onMove(
         recyclerView: RecyclerView,
@@ -26,17 +24,19 @@ class ItemTouchHelper(
         val to = target.adapterPosition
 
         Collections.swap(assets, from, to)
-        adapter.notifyItemMoved(from, to)
+        assetAdapter.notifyItemMoved(from, to)
         return true
     }
 
     // Remove Item
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-        with(adapter) {
+        with(assetAdapter) {
             assets.removeAt(viewHolder.adapterPosition)
-            toolbar.title = showFinalBalance(adapter)
+            toolbar.title = showFinalBalance(assetAdapter)
 
             notifyItemRemoved(viewHolder.adapterPosition)
+            // Atualiza os indexes do array.
+            notifyItemRangeChanged(0, assets.size)
         }
     }
 
